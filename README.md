@@ -1,4 +1,15 @@
-# 大盤多空綜合指標（Market Composite Indicator）
+<div align="center">
+
+# 📈 大盤多空綜合指標（Market Composite Indicator）
+
+_量化研究實習專案｜Market Composite Indicator for Timing the Market_
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+![Status](https://img.shields.io/badge/Status-Research-green)
+![License](https://img.shields.io/badge/License-MIT-orange)
+
+</div>
+
 
 > 量化研究實習專案｜以多源資料建立「大盤擇時」的可解釋綜合指標與視覺化報表
 
@@ -12,13 +23,23 @@
 
 ---
 
+## 🎨 視覺概念示意
+
+![神的領域示意圖](image/god_zone.png)
+*圖：神的領域，展示波段高低點與理想訊號區間*
+
+![混淆矩陣示意圖](image/confusion_matrix.png)
+*圖：混淆矩陣（Confusion Matrix），用於衡量指標有效性*
+
+---
+
 ## 專案亮點（Highlights）
 
-- **可解釋**：從單一資料的轉換與判讀，到混淆矩陣與 F-score 的量化衡量，完整記錄決策邏輯。fileciteturn0file0  
-- **系統化選指標**：依據 `precision / recall / fscore` 等衡量，從多個資料來源挑出 Top-N 成分。fileciteturn0file1  
-- **分層組合**：先在「signal / valuation / status」三大子類別內形成 **Sub-Index**，再加總為 **Composite Index**。fileciteturn0file2  
-- **自動門檻最佳化**：以最小訊號數門檻（例如 ≥2% 交易日）與指定衡量（如 precision）尋找最佳觸發閾值。fileciteturn0file2  
-- **專業視覺化**：價格走勢 × 波段區間 × 指標分數堆疊，並標出門檻觸發點，輸出高解析圖檔。fileciteturn0file3  
+- **可解釋**：從單一資料的轉換與判讀，到混淆矩陣與 F-score 的量化衡量，完整記錄決策邏輯。  
+- **系統化選指標**：依據 `precision / recall / fscore` 等衡量，從多個資料來源挑出 Top-N 成分。  
+- **分層組合**：先在「signal / valuation / status」三大子類別內形成 **Sub-Index**，再加總為 **Composite Index**。  
+- **自動門檻最佳化**：以最小訊號數門檻（例如 ≥2% 交易日）與指定衡量（如 precision）尋找最佳觸發閾值。  
+- **專業視覺化**：價格走勢 × 波段區間 × 指標分數堆疊，並標出門檻觸發點，輸出高解析圖檔。  
 
 ---
 
@@ -35,10 +56,10 @@
 └─ main.py                   # 主流程（讀資料 -> 衡量 -> 選指標 -> 合成 -> 門檻最佳化 -> 輸出）
 ```
 
-- **有效性衡量**：`acc_matrix.acc()` 同時計算 Accuracy、Precision、Recall、F-score(β可調，預設 0.5)、以及**與神的距離（平均訊號距最鄰近高/低點的天數）**。fileciteturn0file0  
-- **成分挑選與 Sub-Index**：`find_important_sig.calculate_index()` 會依指定衡量（如 `precision`）挑出前 `top_n`，加總成子指數並**自動搜尋最佳二元化門檻**。fileciteturn0file1  
-- **主流程**：`main.py` 同步處理 **Buy** 與 **Sell** 兩個方向，分別輸出子表 `sub1/sub2/sub3`、主表 `main_sheet.csv`，與圖檔。fileciteturn0file2  
-- **圖像輸出**：`visualize.py` 提供 `plot_lowzones_with_price()` 與 `plot_highzones_with_price()`，支援中文字型、雙 Y 軸、區間著色、堆疊分數、門檻線與觸發標記。fileciteturn0file3  
+- **有效性衡量**：`acc_matrix.acc()` 同時計算 Accuracy、Precision、Recall、F-score(β可調，預設 0.5)、以及**與神的距離（平均訊號距最鄰近高/低點的天數）**。  
+- **成分挑選與 Sub-Index**：`find_important_sig.calculate_index()` 會依指定衡量（如 `precision`）挑出前 `top_n`，加總成子指數並**自動搜尋最佳二元化門檻**。  
+- **主流程**：`main.py` 同步處理 **Buy** 與 **Sell** 兩個方向，分別輸出子表 `sub1/sub2/sub3`、主表 `main_sheet.csv`，與圖檔。  
+- **圖像輸出**：`visualize.py` 提供 `plot_lowzones_with_price()` 與 `plot_highzones_with_price()`，支援中文字型、雙 Y 軸、區間著色、堆疊分數、門檻線與觸發標記。  
 
 ---
 
@@ -59,7 +80,7 @@ pip install pandas numpy matplotlib
 - `data/sn.csv`：各指標的每日訊號矩陣（含「日期」欄）。  
 - `data/sn_dir.csv`：指標目錄與屬性（欄位需含 `indicator_id` 索引與 `訊號類型`、`name` 等）。  
 - `data/ms.csv`：大盤價量與「波段高低點/區間」等欄位（含「日期」欄）。  
-> 主程式會根據 `sn_dir.csv` 中的 `訊號類型 ∈ {signal, valuation, status}` 進行分群與建模。fileciteturn0file2
+> 主程式會根據 `sn_dir.csv` 中的 `訊號類型 ∈ {signal, valuation, status}` 進行分群與建模。
 
 ---
 
@@ -70,13 +91,13 @@ pip install pandas numpy matplotlib
 python main.py precision
 ```
 程式將：
-1. 讀取 `data/` 中的 `sn.csv`, `sn_dir.csv`, `ms.csv`。fileciteturn0file2  
-2. 依 `訊號類型` 切成三組：`signal / valuation / status`，各自計算有效性（Buy/Sell）。fileciteturn0file2  
-3. 在每組內挑選 **Top-N**（預設 10）作為成分，形成 **Sub-Index**，並以**最少訊號數（≥2%）**的限制搜尋最佳門檻。fileciteturn0file1turn0file2  
-4. 將三個 Sub-Index 相加為 **Composite Index**，再次搜尋最佳門檻，於主表寫入 `(measurement, num_signal)`。fileciteturn0file2  
+1. 讀取 `data/` 中的 `sn.csv`, `sn_dir.csv`, `ms.csv`。  
+2. 依 `訊號類型` 切成三組：`signal / valuation / status`，各自計算有效性（Buy/Sell）。  
+3. 在每組內挑選 **Top-N**（預設 10）作為成分，形成 **Sub-Index**，並以**最少訊號數（≥2%）**的限制搜尋最佳門檻。  
+4. 將三個 Sub-Index 相加為 **Composite Index**，再次搜尋最佳門檻，於主表寫入 `(measurement, num_signal)`。  
 5. 產生報表與圖：  
-   - `data_buy/sub1.csv, sub2.csv, sub3.csv, main_sheet.csv`；`data_buy/lowzone_buy.png`（買進面向）fileciteturn0file2  
-   - `data_sell/sub1.csv, sub2.csv, sub3.csv, main_sheet.csv`；`data_sell/highzone_sell.png`（賣出面向）fileciteturn0file2  
+   - `data_buy/sub1.csv, sub2.csv, sub3.csv, main_sheet.csv`；`data_buy/lowzone_buy.png`（買進面向）  
+   - `data_sell/sub1.csv, sub2.csv, sub3.csv, main_sheet.csv`；`data_sell/highzone_sell.png`（賣出面向）  
 
 ---
 
@@ -90,14 +111,14 @@ python main.py precision
 - `acc_matrix.acc()` 同時計算以下指標（Buy 與 Sell 路徑不同，分別對應「波段低/高點區間」）：  
   - `accuracy`, `precision`, `recall`, `fscore(β=0.5)`  
   - **與神的距離**（訊號到最近高/低點的平均天數）  
-  - 並回傳訊號數 `num_signal`（含二元化後的加總欄位切片）。fileciteturn0file0
+  - 並回傳訊號數 `num_signal`（含二元化後的加總欄位切片）。
 
 ### 3) 成分挑選與子指數（Sub-Index）
-- 先按指定衡量排序、擇前 `top_n` 成分（如 `precision` 前 10）。fileciteturn0file1  
-- 子指數為該組成分之**逐日加總**，接著針對子指數做**門檻最佳化**並二元化（例：`sum > threshold` → 1）。fileciteturn0file1
+- 先按指定衡量排序、擇前 `top_n` 成分（如 `precision` 前 10）。  
+- 子指數為該組成分之**逐日加總**，接著針對子指數做**門檻最佳化**並二元化（例：`sum > threshold` → 1）。
 
 ### 4) 綜合指數（Composite Index）與門檻最佳化
-- 取三個子指數相加為 `composite_index`，再在**全期間**內搜尋使指定衡量最佳的門檻；同時要求**訊號數**不可低於**樣本數的 2%**（避免過度擬合）。fileciteturn0file2
+- 取三個子指數相加為 `composite_index`，再在**全期間**內搜尋使指定衡量最佳的門檻；同時要求**訊號數**不可低於**樣本數的 2%**（避免過度擬合）。
 
 ---
 
@@ -105,21 +126,27 @@ python main.py precision
 
 - **低點面向**：`plot_lowzones_with_price()`  
   - 左軸：收盤價；右軸：子指數堆疊 + 綜合指數（區塊填色）。  
-  - 畫出**波段低點區間**（綠色陰影）與**門檻線**；當 `Composite > Threshold` 於價格圖上以 `^` 標示。fileciteturn0file3  
+  - 畫出**波段低點區間**（綠色陰影）與**門檻線**；當 `Composite > Threshold` 於價格圖上以 `^` 標示。  
 
 - **高點面向**：`plot_highzones_with_price()`  
-  - 類似設計，但為**波段高點區間**（紅色陰影），觸發點以 `v` 標記。fileciteturn0file3  
+  - 類似設計，但為**波段高點區間**（紅色陰影），觸發點以 `v` 標記。  
 
-> 兩者皆支援中文字型與自動偵測日期欄位，最終圖檔會輸出到 `data_buy/lowzone_buy.png` 與 `data_sell/highzone_sell.png`。fileciteturn0file2turn0file3
+![Lowzone Output](./image/output_low.png)
+*圖：低點面向（Lowzone Buy Output）*
+
+![Highzone Output](./image/output_high.png)
+*圖：高點面向（Highzone Sell Output）*
+
+> 兩者皆支援中文字型與自動偵測日期欄位，最終圖檔會輸出到 `data_buy/lowzone_buy.png` 與 `data_sell/highzone_sell.png`。
 
 ---
 
 ## 重要參數與預設
 
-- **Top-N 成分數**：`top_nn = 10`（可於 `main.py` 內調整）。fileciteturn0file2  
-- **最小訊號數門檻**：預設 **2%** 交易日（子指數與綜合指數最佳化時皆適用；早期版本子指數為 4%）。fileciteturn0file1turn0file2  
-- **衡量指標**：啟動指令的第一個參數，如 `precision`, `fscore`。fileciteturn0file2  
-- **價格欄自動偵測**：`visualize.py` 會在 `["收盤價_調整後","盤價","收盤價","Close","Adj Close","close"]` 之間尋找。fileciteturn0file3  
+- **Top-N 成分數**：`top_nn = 10`（可於 `main.py` 內調整）。  
+- **最小訊號數門檻**：預設 **2%** 交易日（子指數與綜合指數最佳化時皆適用；早期版本子指數為 4%）。  
+- **衡量指標**：啟動指令的第一個參數，如 `precision`, `fscore`。  
+- **價格欄自動偵測**：`visualize.py` 會在 `["收盤價_調整後","盤價","收盤價","Close","Adj Close","close"]` 之間尋找。  
 
 ---
 
@@ -135,16 +162,16 @@ python main.py precision
   - `data_buy/lowzone_buy.png`  
   - `data_sell/highzone_sell.png`  
 
-> 主表中會在 `composite_index` 那一列寫入 `(measurement, num_signal)`，以便快速檢視最佳化後的表現與訊號覆蓋率。fileciteturn0file2
+> 主表中會在 `composite_index` 那一列寫入 `(measurement, num_signal)`，以便快速檢視最佳化後的表現與訊號覆蓋率。
 
 ---
 
 ## 延伸與客製化（Extensibility）
 
-- **加入新資料來源**：將轉換後的 0/1 訊號欄加入 `sn.csv`，並在 `sn_dir.csv` 設定 `訊號類型` 與對應 `name` 即可自動納入流程。fileciteturn0file2  
-- **更換評估指標**：啟動時改傳 `fscore` 或自定義衡量（進階：可於 `acc_matrix.py` 擴增）。fileciteturn0file0  
-- **門檻策略**：可替換最佳化目標（例如改用 `recall` 或彈性 β 的 `Fβ-score`）。fileciteturn0file0  
-- **圖表主題**：可在 `visualize.py` 調整配色、標記與字型，或輸出互動式圖表。fileciteturn0file3  
+- **加入新資料來源**：將轉換後的 0/1 訊號欄加入 `sn.csv`，並在 `sn_dir.csv` 設定 `訊號類型` 與對應 `name` 即可自動納入流程。  
+- **更換評估指標**：啟動時改傳 `fscore` 或自定義衡量（進階：可於 `acc_matrix.py` 擴增）。  
+- **門檻策略**：可替換最佳化目標（例如改用 `recall` 或彈性 β 的 `Fβ-score`）。  
+- **圖表主題**：可在 `visualize.py` 調整配色、標記與字型，或輸出互動式圖表。  
 
 ---
 
@@ -156,10 +183,10 @@ python main.py precision
 
 ## 參考檔案（Key Files）
 
-- 指標有效性衡量：`acc_matrix.py`（Accuracy / Precision / Recall / F-score / 與神的距離） fileciteturn0file0  
-- 成分挑選與子指數：`find_important_sig.py`（Top-N、子指數與門檻最佳化） fileciteturn0file1  
-- 主流程：`main.py`（資料讀取、分群、合成、最佳化、輸出） fileciteturn0file2  
-- 視覺化：`visualize.py`（低/高點區間 × 價格 × 分數 × 門檻觸發） fileciteturn0file3  
+- 指標有效性衡量：`acc_matrix.py`（Accuracy / Precision / Recall / F-score / 與神的距離）   
+- 成分挑選與子指數：`find_important_sig.py`（Top-N、子指數與門檻最佳化）   
+- 主流程：`main.py`（資料讀取、分群、合成、最佳化、輸出）   
+- 視覺化：`visualize.py`（低/高點區間 × 價格 × 分數 × 門檻觸發）   
 
 ---
 
