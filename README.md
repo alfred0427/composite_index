@@ -159,11 +159,7 @@ python main.py precision
 - **高點面向**：`plot_highzones_with_price()`  
   - 類似設計，但為**波段高點區間**（紅色陰影），觸發點以 `v` 標記。  
 
-![Lowzone Output](./image/output_low.png)
-*圖：低點面向（Lowzone Buy Output）*
 
-![Highzone Output](./image/output_high.png)
-*圖：高點面向（Highzone Sell Output）*
 
 > 兩者皆支援中文字型與自動偵測日期欄位，最終圖檔會輸出到 `data_buy/lowzone_buy.png` 與 `data_sell/highzone_sell.png`。
 
@@ -178,17 +174,43 @@ python main.py precision
 
 ---
 
-## 輸出成果（Artifacts）
+## 📑 輸出成果 (Artifacts)
 
-- **表格**（CSV）  
-  - `data_buy/sub1.csv`（signal 組 Top-N 與績效）  
-  - `data_buy/sub2.csv`（valuation 組 Top-N 與績效）  
-  - `data_buy/sub3.csv`（status 組 Top-N 與績效）  
-  - `data_buy/main_sheet.csv`（近 5 日 Composite 與最佳化結果）  
-  - `data_sell/` 下對應檔案（賣出面向）  
+- **表格（CSV）
+- `data_buy/sub1.csv`（signal 組 Top-N 與績效）  
+- `data_buy/sub2.csv`（valuation 組 Top-N 與績效）  
+- `data_buy/sub3.csv`（status 組 Top-N 與績效）  
+- `data_buy/main_sheet.csv`（近 5 日 Composite 與最佳化結果）  
+- `data_sell/` 下對應檔案（賣出面向）  
+
+主表中會在 `composite_index` 那一列寫入 **(measurement, num_signal)**，以便快速檢視最佳化後的表現與訊號覆蓋率。
+
+#### 範例：Valuation 指標組合測試結果
+| 指標條件 | fscore | num_signal | 2024-07-31 | 2024-07-30 | 2024-07-29 | 2024-07-26 | 2024-07-23 |
+|----------|--------|------------|------------|------------|------------|------------|------------|
+| 百分位(PE,5yr) <= 0.05 | 0.397 | 788  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 百分位(PE,3yr) < 0.05 且 PE < 20 | 0.424 | 804  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 百分位(PE,3yr) < 0.05 | 0.419 | 816  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| PE < 13 | 0.433 | 663  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 總市值/M1B < 1.6 | 0.254 | 308  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| PB < 1.5 | 0.225 | 543  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 百分位(PB,5yr) <= 0.2 | 0.241 | 1263 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 百分位(PB,3yr) < 0.2 | 0.347 | 1225 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 總市值/M2 < 0.55 | 0.207 | 864  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 總市值/月營收 < 0.9 | 0.098 | 551  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| subindex_valuation | 0.115 | 7825 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| subindex_valuation_binary | 0.343 | 583  | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+
+---
 - **圖檔**（PNG）  
   - `data_buy/lowzone_buy.png`  
   - `data_sell/highzone_sell.png`  
+
+![Lowzone Output](./image/output_low.png)
+*圖：低點面向（Lowzone Buy Output）*
+
+![Highzone Output](./image/output_high.png)
+*圖：高點面向（Highzone Sell Output）*
 
 > 主表中會在 `composite_index` 那一列寫入 `(measurement, num_signal)`，以便快速檢視最佳化後的表現與訊號覆蓋率。
 
