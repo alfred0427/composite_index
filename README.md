@@ -240,6 +240,6 @@ python main.py precision
 
 ---
 
-**作者**：`Your Name`（可替換）  
-**聯絡**：`email@example.com`（可替換）
+**作者**：國立清華大學 計量財務金融學系 陳冠熏
+**聯絡**：alfred930630@gmail.com
 
